@@ -14,7 +14,8 @@ body{
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  overflow:hidden;
+  overflow:auto; /* allow scrolling if needed */
+  padding:20px;
 }
 
 .card{
@@ -23,7 +24,7 @@ body{
   border-radius:25px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
   text-align:center;
-  width:90%;
+  width:100%;
   max-width:500px;
   animation:fadeIn 1.5s ease;
 }
@@ -44,8 +45,8 @@ body{
 }
 
 img#catImage, img#herPic{
-  width:80%;
-  max-width:350px;
+  width:90%;
+  max-width:400px;
   margin:20px 0;
   border-radius:20px;
   display:none;
@@ -69,7 +70,6 @@ button{
 
 button#yes{background:#e63946;color:white;}
 button#no{background:#f77f00;color:white;}
-button#music{background:#457b9d;color:white;margin-top:15px;}
 
 #finalMsg{
   display:none;
@@ -93,8 +93,6 @@ button#music{background:#457b9d;color:white;margin-top:15px;}
     <button id="no">No 😏</button>
   </div>
 
-  <button id="music">Play Music 🎵</button>
-
   <p id="finalMsg">
     Thank you Vantu😍 malai accept gareko ma hamro maya sadhai vari yesari nai rahos, jati argument, misunderstanding mero side bata vayo tesko lagi sorry🥲, love you.
   </p>
@@ -117,12 +115,6 @@ function typeText(){
   }
 }
 typeText();
-
-/* Music */
-document.getElementById("music").addEventListener("click",()=>{
-  const audio = new Audio("https://docs.google.com/uc?export=download&id=17HI6JOrhEWo5NWONHqh-hoyAw8fINWfG");
-  audio.play();
-});
 
 /* Yes / No buttons */
 const yesBtn = document.getElementById("yes");
@@ -154,3 +146,4 @@ yesBtn.addEventListener("click",()=>{
 </script>
 </body>
 </html>
+
