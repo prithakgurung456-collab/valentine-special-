@@ -2,150 +2,155 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Emma ❤️</title>
 
 <style>
 body{
   margin:0;
-  height:100vh;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(to bottom,#ffdde1,#ee9ca7);
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(to bottom,#ffdde1,#ee9ca7);
-  font-family:'Segoe UI',sans-serif;
+  min-height:100vh;
   overflow:hidden;
 }
 
-/* Hearts */
-.heart{
-  position:absolute;
-  color:rgba(255,0,100,0.4);
-  font-size:20px;
-  animation:floatUp 6s linear infinite;
-}
-@keyframes floatUp{
-  0%{transform:translateY(100vh);opacity:1;}
-  100%{transform:translateY(-10vh);opacity:0;}
-}
-
-/* Card */
 .card{
   background:white;
-  padding:30px;
-  border-radius:20px;
+  padding:40px 20px;
+  border-radius:25px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
   text-align:center;
-  max-width:420px;
+  width:90%;
+  max-width:500px;
   animation:fadeIn 1.5s ease;
 }
 
 @keyframes fadeIn{
-  from{opacity:0;transform:scale(0.9);}
+  from{opacity:0;transform:scale(0.95);}
   to{opacity:1;transform:scale(1);}
 }
 
 .typing{
-  font-size:18px;
-  min-height:60px;
+  font-size:22px;
+  min-height:70px;
   border-right:2px solid #5a0f1b;
   white-space:nowrap;
   overflow:hidden;
   color:#5a0f1b;
+  margin-bottom:15px;
 }
 
-img{
-  width:160px;
-  margin-top:20px;
+img#catImage, img#herPic{
+  width:80%;
+  max-width:350px;
+  margin:20px 0;
+  border-radius:20px;
+  display:none;
   animation:float 3s ease-in-out infinite;
 }
 
 @keyframes float{
   0%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
+  50%{transform:translateY(-10px);}
   100%{transform:translateY(0);}
 }
 
 button{
-  margin:15px 8px;
-  padding:10px 20px;
+  margin:10px 8px;
+  padding:12px 25px;
   border:none;
   border-radius:25px;
-  font-size:15px;
+  font-size:18px;
   cursor:pointer;
 }
 
-.yes{background:#e63946;color:white;}
-.no{background:#ccc;}
+button#yes{background:#e63946;color:white;}
+button#no{background:#f77f00;color:white;}
+button#music{background:#457b9d;color:white;margin-top:15px;}
 
 #finalMsg{
   display:none;
   margin-top:15px;
   color:#e63946;
   font-weight:bold;
+  font-size:18px;
+  line-height:1.4;
 }
 </style>
 </head>
 
 <body>
-
 <div class="card">
-  <h2>Happy Rose Day 🌹</h2>
-
   <div class="typing" id="text"></div>
 
-  <img src="https://i.imgur.com/9Z6xZQF.png" alt="Cat with flowers">
+  <img id="catImage" src="https://i.pinimg.com/736x/4d/0f/c7/4d0fc78a0f1c5e8595dbecea9e72f03e.jpg" alt="Cat Giving Flowers">
 
   <div>
-    <button class="yes" onclick="yesClicked()">Yes ❤️</button>
-    <button class="no" onclick="moveNo(this)">No 😏</button>
+    <button id="yes">Yes ❤️</button>
+    <button id="no">No 😏</button>
   </div>
 
-  <button onclick="playMusic()">Play Music 🎵</button>
+  <button id="music">Play Music 🎵</button>
 
-  <p id="finalMsg">You just made my day ❤️ I can’t wait to celebrate with you.</p>
+  <p id="finalMsg">
+    Thank you Vantu😍 malai accept gareko ma hamro maya sadhai vari yesari nai rahos, jati argument, misunderstanding mero side bata vayo tesko lagi sorry🥲, love you.
+  </p>
 
-  <audio id="music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-  </audio>
+  <img id="herPic" src="https://i.imgur.com/0Hfi7Q0.jpeg" alt="Her Picture">
 </div>
 
 <script>
+/* Typing animation */
 const message = "Will you be my Valentine, Emma? ❤️";
 let i = 0;
-
 function typeText(){
   if(i < message.length){
     document.getElementById("text").innerHTML += message.charAt(i);
     i++;
     setTimeout(typeText, 80);
+  } else {
+    // show cat image after typing
+    document.getElementById("catImage").style.display="block";
   }
 }
 typeText();
 
-function playMusic(){
-  document.getElementById("music").play();
-}
+/* Music */
+document.getElementById("music").addEventListener("click",()=>{
+  const audio = new Audio("https://docs.google.com/uc?export=download&id=17HI6JOrhEWo5NWONHqh-hoyAw8fINWfG");
+  audio.play();
+});
 
-function yesClicked(){
-  document.getElementById("finalMsg").style.display="block";
-}
+/* Yes / No buttons */
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const finalMsg = document.getElementById("finalMsg");
+const herPic = document.getElementById("herPic");
 
-function moveNo(btn){
-  btn.style.position="absolute";
-  btn.style.left=Math.random()*80+"%";
-  btn.style.top=Math.random()*80+"%";
-}
+const noMessages = ["please Emma 😅","are you sure? 😏","I’m begging you 😢","just say yes ❤️"];
+let noClickCount = 0;
 
-setInterval(()=>{
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.innerHTML="❤️";
-  heart.style.left=Math.random()*100+"%";
-  heart.style.fontSize=(15+Math.random()*20)+"px";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),6000);
-},500);
+noBtn.addEventListener("click",()=>{
+  // Make Yes button bigger
+  let size = 18 + noClickCount*5; 
+  yesBtn.style.fontSize = size+"px";
+  yesBtn.style.padding = (12 + noClickCount*5)+"px "+(25 + noClickCount*5)+"px";
+  
+  // Change No button text
+  noBtn.innerText = noMessages[noClickCount % noMessages.length];
+  
+  noClickCount++;
+});
+
+yesBtn.addEventListener("click",()=>{
+  finalMsg.style.display="block";
+  herPic.style.display="block";
+  yesBtn.style.display="none";
+  noBtn.style.display="none";
+});
 </script>
-
 </body>
 </html>
