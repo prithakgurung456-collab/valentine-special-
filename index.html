@@ -24,7 +24,7 @@ body{
   border-radius:25px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
   text-align:center;
-  width:100%;
+  width:95%;
   max-width:500px;
   animation:fadeIn 1.5s ease;
 }
@@ -35,10 +35,11 @@ body{
 }
 
 .typing{
-  font-size:22px;
-  min-height:70px;
+  font-size:24px;           /* slightly bigger */
+  min-height:80px;
   border-right:2px solid #5a0f1b;
-  white-space:nowrap;
+  white-space:normal;       /* allow wrapping */
+  word-wrap:break-word;     /* break long lines if needed */
   overflow:hidden;
   color:#5a0f1b;
   margin-bottom:15px;
@@ -146,6 +147,8 @@ yesBtn.addEventListener("click",()=>{
 </script>
 </body>
 </html>
+
+
 
 
 
