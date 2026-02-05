@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(to bottom,#ffdde1,#ee9ca7);
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden;
+}
+
+/* Hearts */
+.heart{
+  position:absolute;
+  color:rgba(255,0,100,0.4);
+  font-size:20px;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh);opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* Card */
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  text-align:center;
+  max-width:420px;
+  animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
+}
+
+.typing{
+  font-size:18px;
+  min-height:60px;
+  border-right:2px solid #5a0f1b;
+  white-space:nowrap;
+  overflow:hidden;
+  color:#5a0f1b;
+}
+
+img{
+  width:160px;
+  margin-top:20px;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+  100%{transform:translateY(0);}
+}
+
+button{
+  margin:15px 8px;
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.yes{background:#e63946;color:white;}
+.no{background:#ccc;}
+
+#finalMsg{
+  display:none;
+  margin-top:15px;
+  color:#e63946;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Happy Rose Day 🌹</h2>
+
+  <div class="typing" id="text"></div>
+
+  <img src="https://i.imgur.com/9Z6xZQF.png" alt="Cat with flowers">
+
+  <div>
+    <button class="yes" onclick="yesClicked()">Yes ❤️</button>
+    <button class="no" onclick="moveNo(this)">No 😏</button>
+  </div>
+
+  <button onclick="playMusic()">Play Music 🎵</button>
+
+  <p id="finalMsg">You just made my day ❤️ I can’t wait to celebrate with you.</p>
+
+  <audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+  </audio>
+</div>
+
+<script>
+const message = "Will you be my Valentine, Emma? ❤️";
+let i = 0;
+
+function typeText(){
+  if(i < message.length){
+    document.getElementById("text").innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typeText, 80);
+  }
+}
+typeText();
+
+function playMusic(){
+  document.getElementById("music").play();
+}
+
+function yesClicked(){
+  document.getElementById("finalMsg").style.display="block";
+}
+
+function moveNo(btn){
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*80+"%";
+  btn.style.top=Math.random()*80+"%";
+}
+
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"%";
+  heart.style.fontSize=(15+Math.random()*20)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},500);
+</script>
+
+</body>
+</html>
