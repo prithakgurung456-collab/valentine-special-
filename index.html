@@ -14,7 +14,6 @@ body{
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  overflow:auto; /* allow scrolling if needed */
   padding:20px;
 }
 
@@ -26,42 +25,27 @@ body{
   text-align:center;
   width:95%;
   max-width:500px;
-  animation:fadeIn 1.5s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(0.95);}
-  to{opacity:1;transform:scale(1);}
+  position:relative;
 }
 
 .typing{
-  font-size:24px;           /* slightly bigger */
-  min-height:80px;
-  border-right:2px solid #5a0f1b;
-  white-space:normal;       /* allow wrapping */
-  word-wrap:break-word;     /* break long lines if needed */
-  overflow:hidden;
+  font-size:24px;
+  min-height:90px;
+  white-space:normal;
+  word-wrap:break-word;
   color:#5a0f1b;
   margin-bottom:15px;
 }
 
-img#catImage, img#herPic{
+img{
   width:90%;
   max-width:400px;
   margin:20px 0;
   border-radius:20px;
-  display:none;
-  animation:float 3s ease-in-out infinite;
-}
-
-@keyframes float{
-  0%{transform:translateY(0);}
-  50%{transform:translateY(-10px);}
-  100%{transform:translateY(0);}
 }
 
 button{
-  margin:10px 8px;
+  margin:10px;
   padding:12px 25px;
   border:none;
   border-radius:25px;
@@ -69,84 +53,104 @@ button{
   cursor:pointer;
 }
 
-button#yes{background:#e63946;color:white;}
-button#no{background:#f77f00;color:white;}
+#yes{background:#e63946;color:white;}
+#no{background:#f77f00;color:white;}
 
-#finalMsg{
-  display:none;
-  margin-top:15px;
-  color:#e63946;
-  font-weight:bold;
-  font-size:18px;
-  line-height:1.4;
+.heart{
+  position:fixed;
+  color:red;
+  font-size:24px;
+  animation:float 3s linear forwards;
+}
+
+@keyframes float{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-200px);opacity:0;}
 }
 </style>
 </head>
 
 <body>
-<div class="card">
+<div class="card" id="card">
+
   <div class="typing" id="text"></div>
 
-  <img id="catImage" src="https://i.pinimg.com/736x/4d/0f/c7/4d0fc78a0f1c5e8595dbecea9e72f03e.jpg" alt="Cat Giving Flowers">
+  <img id="cat" style="display:none"
+  src="https://i.pinimg.com/736x/4d/0f/c7/4d0fc78a0f1c5e8595dbecea9e72f03e.jpg">
 
-  <div>
+  <div id="buttons">
     <button id="yes">Yes ❤️</button>
     <button id="no">No 😏</button>
   </div>
 
-  <p id="finalMsg">
-    Thank you Vantu😍 malai accept gareko ma hamro maya sadhai vari yesari nai rahos, jati argument, misunderstanding mero side bata vayo tesko lagi sorry🥲, love you.
-  </p>
-
-  <img id="herPic" src="https://i.imgur.com/0Hfi7Q0.jpeg" alt="Her Picture">
 </div>
 
 <script>
-/* Typing animation */
+// Typing animation
 const message = "Will you be my Valentine, Emma? ❤️";
 let i = 0;
+const textDiv = document.getElementById("text");
+const cat = document.getElementById("cat");
+
 function typeText(){
   if(i < message.length){
-    document.getElementById("text").innerHTML += message.charAt(i);
+    textDiv.innerHTML += message.charAt(i);
     i++;
     setTimeout(typeText, 80);
   } else {
-    // show cat image after typing
-    document.getElementById("catImage").style.display="block";
+    cat.style.display = "block";
   }
 }
 typeText();
 
-/* Yes / No buttons */
+// Buttons logic
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
-const finalMsg = document.getElementById("finalMsg");
-const herPic = document.getElementById("herPic");
+const card = document.getElementById("card");
 
-const noMessages = ["please Emma 😅","are you sure? 😏","I’m begging you 😢","just say yes ❤️"];
-let noClickCount = 0;
+const noTexts = ["please Emma 🥺","are you sure? 😢","don’t do this 😭","say yes ❤️"];
+let noCount = 0;
 
-noBtn.addEventListener("click",()=>{
-  // Make Yes button bigger
-  let size = 18 + noClickCount*5; 
-  yesBtn.style.fontSize = size+"px";
-  yesBtn.style.padding = (12 + noClickCount*5)+"px "+(25 + noClickCount*5)+"px";
-  
-  // Change No button text
-  noBtn.innerText = noMessages[noClickCount % noMessages.length];
-  
-  noClickCount++;
-});
+noBtn.onclick = () => {
+  noBtn.innerText = noTexts[noCount % noTexts.length];
+  yesBtn.style.transform = `scale(${1 + noCount*0.2})`;
+  noCount++;
+};
 
-yesBtn.addEventListener("click",()=>{
-  finalMsg.style.display="block";
-  herPic.style.display="block";
-  yesBtn.style.display="none";
-  noBtn.style.display="none";
-});
+yesBtn.onclick = () => {
+
+  // Heart animation
+  setInterval(()=>{
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.top = "100vh";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+  },300);
+
+  // Final content (created ONLY after clicking yes)
+  card.innerHTML = `
+    <p style="font-size:18px;color:#e63946;font-weight:bold;">
+    Thank you Vantu😍 malai accept gareko ma hamro maya sadhai vari yesari nai rahos,
+    jati argument, misunderstanding mero side bata vayo tesko lagi sorry🥲,
+    love you.
+    </p>
+
+    <img src="https://i.imgur.com/0Hfi7Q0.jpeg">
+  `;
+
+  // WhatsApp auto message (YOUR NUMBER)
+  setTimeout(()=>{
+    window.location.href =
+    "https://wa.me/32456972431?text=I%20said%20YES%20❤️";
+  }, 2000);
+};
 </script>
 </body>
 </html>
+
 
 
 
